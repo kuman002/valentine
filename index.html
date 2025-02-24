@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Proposal ❤️</title>
+    <style>
+        body {
+            background-color: #fce4ec;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+        }
+
+        h2 {
+            color: #e91e63;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .yes-btn {
+            background-color: #e91e63;
+            color: white;
+            animation: heartbeat 1.5s infinite ease-in-out;
+        }
+
+        .no-btn {
+            background-color: #d32f2f;
+            color: white;
+            position: absolute;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Will you be my Valentine? 💕</h2>
+        <button class="btn yes-btn" onclick="sayYes()">Yes Solra Venna ❤️</button>
+        <button class="btn no-btn" id="noBtn">Mudiyathu Podi 💔</button>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop muted>
+        <source src="bgm2.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Valentine Music -->
+    <audio id="loveSound">
+        <source src="bgm1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const noBtn = document.getElementById("noBtn");
+        const bgMusic = document.getElementById("bgMusic");
+        const loveSound = document.getElementById("loveSound");
+
+        // Prevent "No" button from being clicked
+        noBtn.addEventListener("mouseover", function() {
+            let x = Math.random() * (window.innerWidth - 100);
+            let y = Math.random() * (window.innerHeight - 50);
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+        });
+
+        function sayYes() {
+            // Stop background music
+            bgMusic.pause();
+            bgMusic.currentTime = 0;
+
+            // Play love music
+            loveSound.play().catch(error => {
+                console.log("Autoplay blocked! User must click.", error);
+            });
+
+            document.body.innerHTML = `<h1 style="color:#e91e63; font-size: 40px; margin-top:20%; text-shadow: 2px 2px 5px #000;">
+                Hold on... ❤️
+            </h1>`;
+
+            setTimeout(() => {
+                document.body.innerHTML = `<h1 style="color:#e91e63; font-size: 40px; margin-top:20%; text-shadow: 2px 2px 5px #000;">
+                    I love you! 😍 Forever & Always! 💖
+                </h1>`;
+            }, 5000);
+        }
+
+        // Ensure user interaction triggers background music
+        document.addEventListener("click", function() {
+            if (bgMusic.paused) {
+                bgMusic.muted = false; // Unmute the music after click
+                bgMusic.play().catch(() => {
+                    console.log("Autoplay blocked! Please interact.");
+                });
+            }
+        }, { once: true });
+
+    </script>
+
+</body>
+</html>
