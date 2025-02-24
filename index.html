@@ -57,32 +57,39 @@
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
+
+        #message {
+            display: none;
+            font-size: 40px;
+            color: #e91e63;
+            margin-top: 20%;
+            text-shadow: 2px 2px 5px #000;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="container" id="proposalBox">
         <h2>Will you be my Valentine? 💕</h2>
         <button class="btn yes-btn" onclick="sayYes()">Yes Solra Venna ❤️</button>
         <button class="btn no-btn" id="noBtn">Mudiyathu Podi 💔</button>
     </div>
 
-    <!-- Background Music -->
-    <audio id="bgMusic" loop >
-        <source src="bgm2.mp3" type="audio/mpeg">
-    </audio>
+    <!-- Message Display After Clicking Yes -->
+    <h1 id="message">Hold on... ❤️</h1>
 
-    <!-- Valentine Music -->
-    <audio id="loveSound" autoplay>
+    <!-- Background Music (Plays Continuously) -->
+    <audio id="bgMusic" loop autoplay preload="auto">
         <source src="bgm1.mp3" type="audio/mpeg">
     </audio>
 
     <script>
         const noBtn = document.getElementById("noBtn");
         const bgMusic = document.getElementById("bgMusic");
-        const loveSound = document.getElementById("loveSound");
+        const proposalBox = document.getElementById("proposalBox");
+        const message = document.getElementById("message");
 
-        // Prevent "No" button from being clicked
+        // Moving "No" button
         noBtn.addEventListener("mouseover", function() {
             let x = Math.random() * (window.innerWidth - 100);
             let y = Math.random() * (window.innerHeight - 50);
@@ -91,32 +98,23 @@
         });
 
         function sayYes() {
-            // Stop background music
-            bgMusic.pause();
-            bgMusic.currentTime = 0;
+            // Hide the proposal container
+            proposalBox.style.display = "none";
 
-            // Play love music
-            loveSound.play().catch(error => {
-                console.log("Autoplay blocked! User must click.", error);
-            });
-
-            document.body.innerHTML = `<h1 style="color:#e91e63; font-size: 40px; margin-top:20%; text-shadow: 2px 2px 5px #000;">
-                Hold on... ❤️
-            </h1>`;
+            // Show the "Hold on..." message
+            message.style.display = "block";
 
             setTimeout(() => {
-                document.body.innerHTML = `<h1 style="color:#e91e63; font-size: 40px; margin-top:20%; text-shadow: 2px 2px 5px #000;">
-                    I love you! 😍 Forever & Always! 💖
-                </h1>`;
+                // Update message after 5 seconds
+                message.innerHTML = "I love you! 😍 Forever & Always! 💖";
             }, 5000);
         }
 
-        // Ensure user interaction triggers background music
+        // Ensure background music plays automatically
         document.addEventListener("click", function() {
             if (bgMusic.paused) {
-                bgMusic.muted = false; // Unmute the music after click
                 bgMusic.play().catch(() => {
-                    console.log("Autoplay blocked! Please interact.");
+                    console.log("Autoplay blocked! Please click again.");
                 });
             }
         }, { once: true });
